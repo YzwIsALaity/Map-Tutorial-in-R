@@ -1,6 +1,7 @@
 # Maps
+## Yongzhe Wang
 
-![](Map Version 1.jpeg)
+![]([Map Version 1.jpeg](https://github.com/YzwIsALaity/Map-Tutorial-in-R/blob/ded9575dbb1358e79cafd249af654759aabadd01/Map%20Version%201.jpeg))
 
 In this tutorial, I will be demonstrating how to __plot geographical information in R using the__ `ggplot2` __package__. In addition to the core package, we will also need to load `ggthemes`, `ggrepel`, and `tigris` for visualization, labeling, and text on maps. Generally, __a 2D map is represented using a latitude and longitude coordinate system, with longitude typically placed on the x-axis and latitude on the y-axis__. For this tutorial, we will utilize two COVID-19 surveillance datasets obtained from the [SCAN program](https://seattleflu.org/history/scandashboards) in King County, Washington and the [Washington Department of Health](https://doh.wa.gov/emergencies/covid-19/data-dashboard). In the `ggplot2` package, map visualization primarily involves two types of functions: `geom_polygon()` for __plotting polygons__ and `geom_sf()` for __plotting simple feature (sf) objects__, which are commonly used for mapping data with latitude and longitude coordinates. First, we will cover the usage of `geom_polygon()`, followed by an exploration of `geom_sf()`.
 
@@ -14,7 +15,7 @@ We used a dataset to plot the polygon version, which contains records of COVID-1
 
 To obtain geographical information such as latitude and longitude coordinates for each county in Washington state, we needed to extract this data since it was not originally included in the dataset.
 
-![](First Covid Dataset)
+![](https://github.com/YzwIsALaity/Map-Tutorial-in-R/blob/ded9575dbb1358e79cafd249af654759aabadd01/First%20Covid%20Dataset.png)
 
 The `ggplot2` provides a convenient function `map_data()` that easily turns data from the `maps` package into a data frame suitable for plotting with `ggplot2`, and it mainly requires two arguments:
 
@@ -34,7 +35,7 @@ Map_WA <- map_data(map = 'county', region =  'washington') %>% select(lon = long
 head(Map_WA)
 ````
 
-![](map_data Dataset.png)
+![](https://github.com/YzwIsALaity/Map-Tutorial-in-R/blob/ded9575dbb1358e79cafd249af654759aabadd01/map_data%20Dataset.png)
 
 To __plot each county in this dataframe as a polygon__, we assign multiple pairs of latitude and longitude coordinates to describe the county's boundary. By using the `geom_polygon()` function, we can connect these coordinate pairs to create the polygon representation. To maintain consistency with the `Dt` dataframe, it is necessary to change the column name from `id` to `County` for the `Map_WA` dataframe and capitalize the name of each county. We can achieve this by utilizing the `str_to_title()` function from the `stringr` package. Once these modifications are made, we will merge the dataset for COVID-19 frequency and `Map_WA` dataframes to obtain the final dataframe `Dt_Plot` for generating figures. In the first plot, we aim to __highlight the top three counties with the highest number of confirmed COVID-19 cases in 2021, namely King, Pierce, and Snohomish counties__. Additionally, we intend to __mark four major cities (Seattle, Bellevue, Kirkland, and Redmond) within King county as points on the map through latitude and longitude coordinates__ since there are lots of software engineers lol.
 
@@ -117,7 +118,7 @@ p1 <-
 p1
 ````
 
-![](Map Version 1.jpeg)
+![](https://github.com/YzwIsALaity/Map-Tutorial-in-R/blob/ded9575dbb1358e79cafd249af654759aabadd01/Map%20Version%201.jpeg)
 
 Now we can visualize the overall frequency of confirmed COVID-19 cases in Washington state at the county level with a 2D map!
 
@@ -139,7 +140,7 @@ To demonstrate the utilization of `sf` objects for visualizing maps in R, our pl
 
 It is important to note that each city may encompass multiple zip codes, and the latitude and longitude coordinates provided for a zip code only represent its center point. Therefore, the complete shape of each zip code area cannot be accurately described by a limited set of latitude and longitude coordinates, and we need to obtain a better record to describe each zip code area. 
 
-![](Second Covid Dataset.png)
+![](https://github.com/YzwIsALaity/Map-Tutorial-in-R/blob/ded9575dbb1358e79cafd249af654759aabadd01/Second%20Covid%20Dataset.png)
 
 In order to obtain comprehensive geographical information for each zip code area, we can utilize the `zctas()` function provided by the `tigris` package. This function requires the specification of several arguments:
 
@@ -157,7 +158,7 @@ Zip <- zctas(cb = T, starts_with = c("98"), year = 2020, class = "sf")
 Zip
 ````
 
-![](Zip Code.png)
+![](https://github.com/YzwIsALaity/Map-Tutorial-in-R/blob/ded9575dbb1358e79cafd249af654759aabadd01/Zip%20Code.png)
 
 Our objective is to extract two specific columns from the data: `ZCTA5CE20` (5-Digit ZIP Code Tabulation Area) and `geometry` (as an sf object) for the purpose of plotting a 2D map. Once we have retrieved these columns, we will merge them with the COVID-19 surveillance dataset. Additionally, we intend to emphasize the boundaries of four cities (Seattle, Bellevue, Kirkland, Redmond) by assigning them distinct colors.
 
@@ -203,6 +204,6 @@ p1 <-
 p1
 ````
 
-![](Map Version 2.jpeg)
+![](https://github.com/YzwIsALaity/Map-Tutorial-in-R/blob/ded9575dbb1358e79cafd249af654759aabadd01/Map%20Version%202.jpeg)
 
 Here we go!
